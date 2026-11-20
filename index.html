@@ -36,6 +36,9 @@ body{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 .scr[hidden]{display:none}
 .tz-screen{width:390px;height:100%}
 .tz-screen main{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+/* on short screens content scrolls instead of squeezing: nothing inside the scroll area shrinks below its content */
+.tz-screen main > *{flex-shrink:0}
+.tz-screen main [style*="min-height: 0"]{min-height:auto!important}
 @media (min-width:600px){
   #app{background:#E8E8E8;align-items:center;padding:24px}
   .scr{height:min(844px,calc(100dvh - 48px));border:2px solid #0A0A0A;box-shadow:12px 12px 0 #0A0A0A;overflow:hidden;background:#fff}
