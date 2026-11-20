@@ -56,7 +56,8 @@ body{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
 <body>
 <div id="app"></div>
 <noscript>This prototype needs JavaScript.</noscript>
-<script>
+<script>window.TZ_VERSION = 'b282bece0a83';
+
 function tzInit(){
   var start = Date.now();
   var LIMIT_FREE = 100; // free delivery in Muscat from OMR 100, as on the website
@@ -220,7 +221,20 @@ function tzInit(){
   document.addEventListener('submit', function(ev){ ev.preventDefault(); });
   window.addEventListener('hashchange', show);
   window.addEventListener('resize', fit);
-  fit(); renderSaved(); renderCart(); renderDrops(); show(); setInterval(tick, 1000);
+  function checkUpdate(){
+    fetch('version.json?t=' + Date.now(), {cache: 'no-store'}).then(function(r){ return r.json(); })
+      .then(function(j){
+        if (!j || !j.v || j.v === window.TZ_VERSION) return;
+        var last = 0; try { last = +sessionStorage.getItem('tz-reloaded') || 0; } catch(e) {}
+        if (Date.now() - last < 30000) return; // at most one automatic reload every 30 seconds
+        try { sessionStorage.setItem('tz-reloaded', Date.now()); } catch(e) {}
+        location.reload();
+      }).catch(function(){});
+  }
+  document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') checkUpdate(); });
+  window.addEventListener('focus', checkUpdate);
+  setInterval(checkUpdate, 60000);
+  fit(); renderSaved(); renderCart(); renderDrops(); show(); setInterval(tick, 1000); checkUpdate();
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 }
 
