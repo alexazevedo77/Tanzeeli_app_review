@@ -7,7 +7,7 @@
  "scope": "/",
  "display": "standalone",
  "orientation": "portrait",
- "background_color": "#FFFFFF",
+ "background_color": "#FF0000",
  "theme_color": "#FFFFFF",
  "lang": "en",
  "icons": [
@@ -18,7 +18,7 @@
    "purpose": "any"
   },
   {
-   "src": "icons/splash-blank-512.png",
+   "src": "icons/icon-512.png",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "any"
